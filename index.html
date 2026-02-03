@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day, Tayo!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* Floating hearts background */
+        .hearts-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: floatUp 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Card container */
+        .card-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            width: 380px;
+            height: 520px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s ease;
+            cursor: pointer;
+        }
+
+        .card.open {
+            transform: rotateY(-160deg);
+        }
+
+        .card-front, .card-inside {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-front {
+            background: linear-gradient(145deg, #e63946 0%, #c1121f 50%, #9d0208 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: rotateY(0deg);
+            z-index: 2;
+        }
+
+        .card-inside {
+            background: linear-gradient(145deg, #fff5f5 0%, #ffe8e8 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 30px;
+        }
+
+        /* Heart on front */
+        .main-heart {
+            font-size: 120px;
+            animation: heartbeat 1.2s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+            margin-bottom: 20px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.05); }
+        }
+
+        .front-text {
+            color: white;
+            font-size: 28px;
+            font-style: italic;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+        }
+
+        .to-name {
+            color: #ffd6d6;
+            font-size: 48px;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
+            letter-spacing: 3px;
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* Inside content */
+        .inside-content {
+            text-align: center;
+            color: #9d0208;
+        }
+
+        .inside-heart {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .message-title {
+            font-size: 32px;
+            margin-bottom: 25px;
+            color: #c1121f;
+        }
+
+        .love-message {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #6b2d2d;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .signature {
+            font-size: 22px;
+            color: #c1121f;
+            margin-top: 20px;
+        }
+
+        .hearts-decoration {
+            font-size: 24px;
+            letter-spacing: 10px;
+            margin-top: 20px;
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle 1s ease-out forwards;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        /* Envelope decoration */
+        .envelope-seal {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #ffd700, #ffb700);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                width: 320px;
+                height: 450px;
+            }
+
+            .main-heart {
+                font-size: 80px;
+            }
+
+            .to-name {
+                font-size: 36px;
+            }
+
+            .love-message {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="card-container">
+        <div class="card" id="card" onclick="toggleCard()">
+            <div class="envelope-seal">💌</div>
+
+            <div class="card-front">
+                <div class="main-heart">❤️</div>
+                <div class="front-text">Happy Valentine's Day</div>
+                <div class="to-name">Tayo</div>
+                <div class="click-hint">Click to open</div>
+            </div>
+
+            <div class="card-inside">
+                <div class="inside-content">
+                    <div class="inside-heart">💕</div>
+                    <div class="message-title">My Dearest Tayo,</div>
+                    <div class="love-message">
+                        Every moment with you feels like a beautiful dream.<br><br>
+                        Your smile lights up my world,<br>
+                        your laugh is my favorite melody,<br>
+                        and your love is the greatest gift<br>
+                        I could ever receive.<br><br>
+                        You make every day feel special,<br>
+                        and I'm so grateful to have you in my life.
+                    </div>
+                    <div class="signature">With All My Love ❤️</div>
+                    <div class="hearts-decoration">💗 💖 💗</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Toggle card open/close
+        function toggleCard() {
+            const card = document.getElementById('card');
+            card.classList.toggle('open');
+            createSparkles(event);
+        }
+
+        // Create sparkle effect on click
+        function createSparkles(e) {
+            const colors = ['#ff6b6b', '#ffd93d', '#ff8fab', '#ffffff', '#c9184a'];
+            for (let i = 0; i < 12; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.clientX + (Math.random() - 0.5) * 100 + 'px';
+                sparkle.style.top = e.clientY + (Math.random() - 0.5) * 100 + 'px';
+                sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                sparkle.style.width = Math.random() * 10 + 5 + 'px';
+                sparkle.style.height = sparkle.style.width;
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        }
+
+        // Create floating hearts background
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsBg');
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💘', '💝'];
+
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 8 + 's';
+                heart.style.animationDuration = 6 + Math.random() * 4 + 's';
+                heart.style.fontSize = 15 + Math.random() * 20 + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        // Initialize
+        createFloatingHearts();
+
+        // Add more hearts periodically
+        setInterval(() => {
+            const container = document.getElementById('heartsBg');
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💘', '💝'];
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.fontSize = 15 + Math.random() * 20 + 'px';
+            container.appendChild(heart);
+
+            setTimeout(() => heart.remove(), 10000);
+        }, 800);
+    </script>
+</body>
+</html>
